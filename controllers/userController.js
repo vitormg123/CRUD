@@ -1,99 +1,99 @@
-const User = require('../models/userModel');
+const usuario = require('../models/userModel');
 
-const userController = {
-    createUser: (req, res) => {
-        const newUser = {
-            username: req.body.username,
+const usuarioController = {
+    createusuario: (req, res) => {
+        const newusuario = {
+            usuarioname: req.body.usuarioname,
             password: req.body.password,
             role: req.body.role,
         };
 
-        User.create(newUser, (err, userId) => {
+        usuario.create(newusuario, (err, usuarioId) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
-            res.redirect('/users');
+            res.redirect('/usuarios');
         });
     },
 
-    getUserById: (req, res) => {
-        const userId = req.params.id;
+    getusuarioById: (req, res) => {
+        const usuarioId = req.params.id;
 
-        User.findById(userId, (err, user) => {
+        usuario.findById(usuarioId, (err, usuario) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+            if (!usuario) {
+                return res.status(404).json({ message: 'usuario not found' });
             }
-            res.render('users/show', { user });
+            res.render('usuarios/show', { usuario });
         });
     },
 
-    getAllUsers: (req, res) => {
-        User.getAll((err, users) => {
+    getAllusuarios: (req, res) => {
+        usuario.getAll((err, usuarios) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
-            res.render('users/index', { users });
+            res.render('usuarios/index', { usuarios });
         });
     },
 
     renderCreateForm: (req, res) => {
-        res.render('users/create');
+        res.render('usuarios/create');
     },
 
     renderEditForm: (req, res) => {
-        const userId = req.params.id;
+        const usuarioId = req.params.id;
 
-        User.findById(userId, (err, user) => {
+        usuario.findById(usuarioId, (err, usuario) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
+            if (!usuario) {
+                return res.status(404).json({ message: 'usuario not found' });
             }
-            res.render('users/edit', { user });
+            res.render('usuarios/edit', { usuario });
         });
     },
 
-    updateUser: (req, res) => {
-        const userId = req.params.id;
-        const updatedUser = {
-            username: req.body.username,
+    updateusuario: (req, res) => {
+        const usuarioId = req.params.id;
+        const updatedusuario = {
+            usuarioname: req.body.usuarioname,
             password: req.body.password,
             role: req.body.role,
         };
 
-        User.update(userId, updatedUser, (err) => {
+        usuario.update(usuarioId, updatedusuario, (err) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
-            res.redirect('/users');
+            res.redirect('/usuarios');
         });
     },
 
-    deleteUser: (req, res) => {
-        const userId = req.params.id;
+    deleteusuario: (req, res) => {
+        const usuarioId = req.params.id;
 
-        User.delete(userId, (err) => {
+        usuario.delete(usuarioId, (err) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
-            res.redirect('/users');
+            res.redirect('/usuarios');
         });
     },
 
-    searchUsers: (req, res) => {
+    searchusuarios: (req, res) => {
         const search = req.query.search || '';
 
-        User.searchByName(search, (err, users) => {
+        usuario.searchByName(search, (err, usuarios) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
-            res.json({ users });
+            res.json({ usuarios });
         });
     },
 };
 
-module.exports = userController;
+module.exports = usuarioController;
