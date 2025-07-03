@@ -42,3 +42,7 @@ CREATE TABLE teste (
     quantidade INT NOT NULL,
     categoria INT NOT NULL
 );
+
+ALTER TABLE produtos
+ADD COLUMN created_at DATETIME DEFAULT CURRENT_TIMESTAMP;
+

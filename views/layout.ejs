@@ -19,7 +19,7 @@
         /* Barra Laranja */
         .top-bar {
             background-color: #d35400; /* Laranja */
-            color: black; /* Nome preto */
+            color: black;
             padding: 10px 20px;
             display: flex;
             justify-content: space-between;
@@ -64,10 +64,14 @@
 
         /* Barra de Navegação Cinza Escuro */
         .nav-bar {
-            background-color: #2c2c2c; /* Cinza escuro para a barra de navegação */
+            background-color: #2c2c2c;
             display: flex;
             justify-content: center;
             padding: 10px 0;
+        }
+
+        .nav-bar a {
+            text-decoration: none;
         }
 
         .nav-bar button {
@@ -91,7 +95,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
             margin-bottom: 1.5rem;
             padding: 1.5rem;
-            background-color: #1e1e1e; /* Cinza quase preto para destacar os cards */
+            background-color: #1e1e1e;
             text-align: center;
             color: white;
         }
@@ -114,10 +118,10 @@
             box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.7);
         }
 
-        /* Container para que o conteúdo principal não fique por trás do footer */
+        /* Container para evitar que o conteúdo fique atrás do footer */
         .content-wrapper {
             flex: 1 0 auto;
-            padding-bottom: 60px; /* Altura do footer para evitar sobreposição */
+            padding-bottom: 60px;
         }
     </style>
 </head>
@@ -137,11 +141,12 @@
 
     <!-- Barra de Navegação Cinza Escuro -->
     <div class="nav-bar">
-        <button>Todos</button>
+        <a href="/produtos"><button>Todos</button></a>
         <button>Mais Vendidos</button>
-        <button>Novidades</button>
+        <a href="/produtos/novidades"><button>Novidades</button></a>
         <button>Descontos</button>
     </div>
+
 
     <!-- Conteúdo Dinâmico das Views -->
     <div class="container mt-4 content-wrapper">

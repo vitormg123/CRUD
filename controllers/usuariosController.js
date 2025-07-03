@@ -1,4 +1,4 @@
-const usuario = require('../models/userModel');
+const usuarios = require('../models/userModel');
 
 const usuarioController = {
     createusuario: (req, res) => {

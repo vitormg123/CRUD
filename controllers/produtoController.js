@@ -2,9 +2,7 @@ const Produto = require('../models/produtoModel');
 const Categoria = require('../models/categoriaModel');
 
 const produtoController = {
-
     createProduto: (req, res) => {
-
         const newProduto = {
             nome: req.body.nome,
             descricao: req.body.descricao,
@@ -13,7 +11,7 @@ const produtoController = {
             categoria: req.body.categoria
         };
 
-        Produto.create(newProduto, (err, produtoId) => {
+        Produto.create(newProduto, (err, result) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -24,20 +22,21 @@ const produtoController = {
     getProdutoById: (req, res) => {
         const produtoId = req.params.id;
 
-        Produto.findById(produtoId, (err, produto) => {
+        Produto.findById(produtoId, (err, produtos) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
-            if (!produto) {
+            if (!produtos || produtos.length === 0) {
                 return res.status(404).json({ message: 'Produto not found' });
             }
+            const produto = produtos[0];
             res.render('produtos/show', { produto });
         });
     },
-    
+
     getAllProdutos: (req, res) => {
         const categoria = req.query.categoria || null;
-        
+
         Produto.getAll(categoria, (err, produtos) => {
             if (err) {
                 return res.status(500).json({ error: err });
@@ -47,6 +46,20 @@ const produtoController = {
                     return res.status(500).json({ error: err });
                 }
                 res.render('produtos/index', { produtos, categorias, categoriaSelecionada: categoria });
+            });
+        });
+    },
+
+    getNovidades: (req, res) => {
+        Produto.getNovidades((err, produtos) => {
+            if (err) {
+                return res.status(500).json({ error: err });
+            }
+            Categoria.getAll((err, categorias) => {
+                if (err) {
+                    return res.status(500).json({ error: err });
+                }
+                res.render('produtos/index', { produtos, categorias, categoriaSelecionada: null });
             });
         });
     },
@@ -63,13 +76,15 @@ const produtoController = {
     renderEditForm: (req, res) => {
         const produtoId = req.params.id;
 
-        Produto.findById(produtoId, (err, produto) => {
+        Produto.findById(produtoId, (err, produtos) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
-            if (!produto) {
+            if (!produtos || produtos.length === 0) {
                 return res.status(404).json({ message: 'Produto not found' });
             }
+
+            const produto = produtos[0];
 
             Categoria.getAll((err, categorias) => {
                 if (err) {
@@ -82,7 +97,7 @@ const produtoController = {
 
     updateProduto: (req, res) => {
         const produtoId = req.params.id;
-        
+
         const updatedProduto = {
             nome: req.body.nome,
             descricao: req.body.descricao,
