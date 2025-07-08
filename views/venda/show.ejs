@@ -1,0 +1,15 @@
+<%- include('../partials/header') %>
+
+<h1>Detalhes da Venda</h1>
+
+<ul>
+    <li>ID: <%= venda.id %></li>
+    <li>Data: <%= venda.data.toISOString().split('T')[0] %></li>
+    <li>Valor: <%= venda.valor %></li>
+    <li>Quantidade: <%= venda.quantidade %></li>
+    <li>ID do Produto: <%= venda.produto_id %></li>
+</ul>
+
+<a href="/vendas">Voltar</a>
+
+<%- include('../partials/footer') %>

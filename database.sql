@@ -46,3 +46,11 @@ CREATE TABLE teste (
 ALTER TABLE produtos
 ADD COLUMN created_at DATETIME DEFAULT CURRENT_TIMESTAMP;
 
+CREATE TABLE vendas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    data DATE,
+    valor DECIMAL(10, 2),
+    quantidade INT,
+    produto_id INT,
+    FOREIGN KEY (produto_id) REFERENCES produtos(id)
+);

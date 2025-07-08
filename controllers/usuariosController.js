@@ -1,14 +1,14 @@
-const usuarios = require('../models/userModel');
+const usuarios = require('../models/usuariosModel');
 
-const usuarioController = {
-    createusuario: (req, res) => {
+const usuariosController = {
+    createUsuario: (req, res) => {
         const newusuario = {
             usuarioname: req.body.usuarioname,
             password: req.body.password,
             role: req.body.role,
         };
 
-        usuario.create(newusuario, (err, usuarioId) => {
+        usuarios.create(newUsuario, (err, usuarioId) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -16,22 +16,22 @@ const usuarioController = {
         });
     },
 
-    getusuarioById: (req, res) => {
+    getusUarioById: (req, res) => {
         const usuarioId = req.params.id;
 
-        usuario.findById(usuarioId, (err, usuario) => {
+        usuarios.findById(usuarioId, (err, usuario) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
             if (!usuario) {
-                return res.status(404).json({ message: 'usuario not found' });
+                return res.status(404).json({ message: 'usuario não encontrado' });
             }
             res.render('usuarios/show', { usuario });
         });
     },
 
     getAllusuarios: (req, res) => {
-        usuario.getAll((err, usuarios) => {
+        usuarios.getAll((err, usuarios) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -46,7 +46,7 @@ const usuarioController = {
     renderEditForm: (req, res) => {
         const usuarioId = req.params.id;
 
-        usuario.findById(usuarioId, (err, usuario) => {
+        usuarios.findById(usuarioId, (err, usuario) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -57,7 +57,7 @@ const usuarioController = {
         });
     },
 
-    updateusuario: (req, res) => {
+    updateUsuario: (req, res) => {
         const usuarioId = req.params.id;
         const updatedusuario = {
             usuarioname: req.body.usuarioname,
@@ -65,7 +65,7 @@ const usuarioController = {
             role: req.body.role,
         };
 
-        usuario.update(usuarioId, updatedusuario, (err) => {
+        usuarios.update(usuarioId, updatedusuario, (err) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -73,10 +73,10 @@ const usuarioController = {
         });
     },
 
-    deleteusuario: (req, res) => {
+    deleteUsuario: (req, res) => {
         const usuarioId = req.params.id;
 
-        usuario.delete(usuarioId, (err) => {
+        usuarios.delete(usuarioId, (err) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -84,10 +84,10 @@ const usuarioController = {
         });
     },
 
-    searchusuarios: (req, res) => {
+    searchusUarios: (req, res) => {
         const search = req.query.search || '';
 
-        usuario.searchByName(search, (err, usuarios) => {
+        usuarios.searchByName(search, (err, usuarios) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -96,4 +96,4 @@ const usuarioController = {
     },
 };
 
-module.exports = usuarioController;
+module.exports = usuariosController;
