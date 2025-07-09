@@ -1,38 +1,44 @@
-<%- include('../partials/header') %>
+<h1 class="text-center my-4">Lista de Vendas</h1>
 
-<h1>Lista de Vendas</h1>
-
-<a href="/vendas/create">Nova Venda</a>
-
-<table border="1">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Data</th>
-            <th>Valor</th>
-            <th>Quantidade</th>
-            <th>ID do Produto</th>
-            <th>Ações</th>
-        </tr>
+<div class="table-responsive">
+  <table class="table table-dark table-striped table-bordered">
+    <thead class="thead-dark">
+      <tr>
+        <th>ID</th>
+        <th>Data</th>
+        <th>Valor (R$)</th>
+        <th>Quantidade</th>
+        <th>ID do Produto</th>
+        <th>Ações</th>
+      </tr>
     </thead>
     <tbody>
+      <% if (vendas.length > 0) { %>
         <% vendas.forEach(venda => { %>
-            <tr>
-                <td><%= venda.id %></td>
-                <td><%= venda.data.toISOString().split('T')[0] %></td>
-                <td><%= venda.valor %></td>
-                <td><%= venda.quantidade %></td>
-                <td><%= venda.produto_id %></td>
-                <td>
-                    <a href="/vendas/<%= venda.id %>">Ver</a>
-                    <a href="/vendas/<%= venda.id %>/edit">Editar</a>
-                    <form action="/vendas/<%= venda.id %>/delete" method="POST" style="display:inline;">
-                        <button type="submit" onclick="return confirm('Deseja excluir esta venda?')">Excluir</button>
-                    </form>
-                </td>
-            </tr>
+          <tr>
+            <td><%= venda.id %></td>
+            <td><%= venda.data.substring(0, 10) %></td>
+            <td><%= venda.valor %></td>
+            <td><%= venda.quantidade %></td>
+            <td><%= venda.produto_id %></td>
+            <td>
+              <a href="/vendas/<%= venda.id %>" class="btn btn-sm btn-info">Ver</a>
+              <a href="/vendas/<%= venda.id %>/edit" class="btn btn-sm btn-warning">Editar</a>
+              <form action="/vendas/<%= venda.id %>?_method=DELETE" method="POST" class="d-inline">
+                <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+              </form>
+            </td>
+          </tr>
         <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="6" class="text-center">Nenhuma venda cadastrada.</td>
+        </tr>
+      <% } %>
     </tbody>
-</table>
+  </table>
+</div>
 
-<%- include('../partials/footer') %>
+<div class="text-center mt-4">
+  <a href="/vendas/create" class="btn btn-success">Cadastrar Nova Venda</a>
+</div>

@@ -1,14 +1,14 @@
 const usuarios = require('../models/usuariosModel');
 
 const usuariosController = {
-    createUsuario: (req, res) => {
+    createusuarios: (req, res) => {
         const newusuario = {
             usuarioname: req.body.usuarioname,
             password: req.body.password,
             role: req.body.role,
         };
 
-        usuarios.create(newUsuario, (err, usuarioId) => {
+        usuarios.create(newusuario, (err, usuarioId) => {
             if (err) {
                 return res.status(500).json({ error: err });
             }
@@ -16,7 +16,7 @@ const usuariosController = {
         });
     },
 
-    getusUarioById: (req, res) => {
+    getusuariosById: (req, res) => {
         const usuarioId = req.params.id;
 
         usuarios.findById(usuarioId, (err, usuario) => {
@@ -51,13 +51,13 @@ const usuariosController = {
                 return res.status(500).json({ error: err });
             }
             if (!usuario) {
-                return res.status(404).json({ message: 'usuario not found' });
+                return res.status(404).json({ message: 'usuario não encontrado' });
             }
             res.render('usuarios/edit', { usuario });
         });
     },
 
-    updateUsuario: (req, res) => {
+    updateusuarios: (req, res) => {
         const usuarioId = req.params.id;
         const updatedusuario = {
             usuarioname: req.body.usuarioname,
@@ -73,7 +73,7 @@ const usuariosController = {
         });
     },
 
-    deleteUsuario: (req, res) => {
+    deleteusuarios: (req, res) => {
         const usuarioId = req.params.id;
 
         usuarios.delete(usuarioId, (err) => {
@@ -84,7 +84,7 @@ const usuariosController = {
         });
     },
 
-    searchusUarios: (req, res) => {
+    searchusuarios: (req, res) => {
         const search = req.query.search || '';
 
         usuarios.searchByName(search, (err, usuarios) => {

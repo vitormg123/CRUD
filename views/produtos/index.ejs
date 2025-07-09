@@ -1,10 +1,7 @@
-<h1>Lista de produtos</h1>
-
-<!-- Formulário de filtro por categoria -->
-<form method="GET" action="/produtos">
+<form method="GET" action="/produtos" class="mb-4">
     <div class="form-group">
         <label for="categoria">Filtrar por Categoria:</label>
-        <select id="categoria" name="categoria" class="form-control">
+        <select id="categoria" name="categoria" class="form-control w-25">
             <option value="">Todas as Categorias</option>
             <% categorias.forEach(categoria => { %>
                 <option value="<%= categoria.id %>" <%= categoriaSelecionada == categoria.id ? 'selected' : '' %>><%= categoria.nome %></option>
@@ -14,35 +11,23 @@
     <button type="submit" class="btn btn-primary">Filtrar</button>
 </form>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nome</th>
-            <th>Descrição</th>
-            <th>Preço</th>
-            <th>Quantidade</th>
-            <th>Categoria</th>
-            <th>Ações</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% produtos.forEach(produto => { %>
-            <tr>
-                <td><%= produto.id %></td>
-                <td><%= produto.nome %></td>
-                <td><%= produto.descricao %></td>
-                <td><%= produto.preco %></td>
-                <td><%= produto.quantidade %></td>
-                <td><%= produto.categoria_nome %></td>
-                <td>
-                    <a href="/produtos/<%= produto.id %>" class="btn btn-primary">View</a>
-                    <a href="/produtos/<%= produto.id %>/edit" class="btn btn-warning">Edit</a>
-                    <form action="/produtos/<%= produto.id %>?_method=DELETE" method="POST" style="display: inline;">
-                        <button type="submit" class="btn btn-danger">Delete</button>
+<div class="row">
+    <% produtos.forEach(produto => { %>
+        <div class="col-md-4 mb-4">
+            <div class="card" style="background-color: white; color: black; border-radius: 15px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+                <div class="card-body">
+                    <h5 class="card-title"><%= produto.nome %></h5>
+                    <p class="card-text"><%= produto.descricao %></p>
+                    <p><strong>Preço:</strong> R$ <%= produto.preco.toFixed(2) %></p>
+                    <p><strong>Quantidade:</strong> <%= produto.quantidade %></p>
+                    <p><strong>Categoria:</strong> <%= produto.categoria_nome %></p>
+                    <a href="/produtos/<%= produto.id %>" class="btn btn-primary btn-sm">Ver</a>
+                    <a href="/produtos/<%= produto.id %>/edit" class="btn btn-warning btn-sm">Editar</a>
+                    <form action="/produtos/<%= produto.id %>?_method=DELETE" method="POST" style="display:inline;">
+                        <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
                     </form>
-                </td>
-            </tr>
-        <% }) %>
-    </tbody>
-</table>
+                </div>
+            </div>
+        </div>
+    <% }) %>
+</div>

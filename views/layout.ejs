@@ -55,6 +55,15 @@
             background-color: #666;
         }
 
+        .top-bar .icon-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .top-bar .icon-buttons a.btn {
+            margin-right: 15px;
+        }
+
         .top-bar .icon-buttons i {
             font-size: 1.5rem;
             margin-left: 15px;
@@ -134,6 +143,7 @@
             <button class="btn btn-sm">Buscar</button>
         </div>
         <div class="icon-buttons">
+            <a href="/produtos/create" class="btn btn-success btn-sm">Cadastrar Produto</a>
             <i class="fas fa-shopping-cart" title="Carrinho"></i>
             <i class="fas fa-user-circle" title="Perfil"></i>
         </div>
@@ -146,7 +156,6 @@
         <a href="/produtos/novidades"><button>Novidades</button></a>
         <button>Descontos</button>
     </div>
-
 
     <!-- Conteúdo Dinâmico das Views -->
     <div class="container mt-4 content-wrapper">
