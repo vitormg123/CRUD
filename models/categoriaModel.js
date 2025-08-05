@@ -1,66 +1,78 @@
-const db = require('../config/db');
+// models/categoriaModel.js
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db'); // conexão configurada com Sequelize
 
-const Categoria = {
-    create: (categoria, callback) => {
-        const query = 'INSERT INTO categorias (nome) VALUES (?)';
-        db.query(query, [categoria.nome], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results.insertId);
-        });
+// Definição do modelo
+const Categoria = sequelize.define('Categoria', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    nome: {
+        type: DataTypes.STRING,
+        allowNull: false
+    }
+}, {
+    tableName: 'categorias',
+    timestamps: false // desativa createdAt/updatedAt
+});
+
+// Métodos no mesmo padrão do seu código original
+const categoriaModel = {
+    create: async (categoria, callback) => {
+        try {
+            const novaCategoria = await Categoria.create(categoria);
+            callback(null, novaCategoria.id);
+        } catch (err) {
+            callback(err);
+        }
     },
 
-    findById: (id, callback) => {
-        const query = 'SELECT * FROM categorias WHERE id = ?';
-        db.query(query, [id], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results[0]);
-        });
+    findById: async (id, callback) => {
+        try {
+            const categoria = await Categoria.findByPk(id);
+            callback(null, categoria);
+        } catch (err) {
+            callback(err);
+        }
     },
 
-    findByCategorianame: (nome, callback) => {
-        const query = 'SELECT * FROM categorias WHERE nome = ?';
-        db.query(query, [nome], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results[0]);
-        });
+    findByCategorianame: async (nome, callback) => {
+        try {
+            const categoria = await Categoria.findOne({ where: { nome } });
+            callback(null, categoria);
+        } catch (err) {
+            callback(err);
+        }
     },
 
-    update: (id, categoria, callback) => {
-        const query = 'UPDATE categorias SET nome = ? WHERE id = ?';
-        db.query(query, [categoria.nome,id], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results);
-        });
+    update: async (id, categoria, callback) => {
+        try {
+            const resultado = await Categoria.update(categoria, { where: { id } });
+            callback(null, resultado);
+        } catch (err) {
+            callback(err);
+        }
     },
 
-    delete: (id, callback) => {
-        const query = 'DELETE FROM categorias WHERE id = ?';
-        db.query(query, [id], (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results);
-        });
+    delete: async (id, callback) => {
+        try {
+            const resultado = await Categoria.destroy({ where: { id } });
+            callback(null, resultado);
+        } catch (err) {
+            callback(err);
+        }
     },
 
-    getAll: (callback) => {
-        const query = 'SELECT * FROM categorias';
-        db.query(query, (err, results) => {
-            if (err) {
-                return callback(err);
-            }
-            callback(null, results);
-        });
-    },
+    getAll: async (callback) => {
+        try {
+            const categorias = await Categoria.findAll();
+            callback(null, categorias);
+        } catch (err) {
+            callback(err);
+        }
+    }
 };
 
-
-module.exports = Categoria;
+module.exports = categoriaModel;

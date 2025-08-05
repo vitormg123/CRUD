@@ -1,47 +1,87 @@
-const db = require('../config/db');
+// models/vendaModel.js
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/db');
+const Produto = require('./produtoModel'); // Importa o model de Produto
 
-const Venda = {
-    create: (venda, callback) => {
-        const query = 'INSERT INTO vendas (data, valor, quantidade, produto_id) VALUES (?, ?, ?, ?)';
-        const values = [venda.data, venda.valor, venda.quantidade, venda.produto_id];
-        db.query(query, values, (err, results) => {
-            if (err) return callback(err);
-            callback(null, results.insertId);
-        });
+const Venda = sequelize.define('Venda', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    data: {
+        type: DataTypes.DATE,
+        allowNull: false
+    },
+    valor: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: false
+    },
+    quantidade: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    produto_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    }
+}, {
+    tableName: 'vendas',
+    timestamps: false
+});
+
+// Relacionamento com Produto
+Venda.belongsTo(Produto, { foreignKey: 'produto_id', as: 'produtoInfo' });
+
+const vendaModel = {
+    create: async (venda, callback) => {
+        try {
+            const novaVenda = await Venda.create(venda);
+            callback(null, novaVenda.id);
+        } catch (err) {
+            callback(err);
+        }
     },
 
-    findById: (id, callback) => {
-        const query = 'SELECT * FROM vendas WHERE id = ?';
-        db.query(query, [id], (err, results) => {
-            if (err) return callback(err);
-            callback(null, results[0]);
-        });
+    findById: async (id, callback) => {
+        try {
+            const venda = await Venda.findByPk(id, {
+                include: [{ model: Produto, as: 'produtoInfo' }]
+            });
+            callback(null, venda);
+        } catch (err) {
+            callback(err);
+        }
     },
 
-    getAll: (callback) => {
-        const query = 'SELECT * FROM vendas';
-        db.query(query, (err, results) => {
-            if (err) return callback(err);
-            callback(null, results);
-        });
+    getAll: async (callback) => {
+        try {
+            const vendas = await Venda.findAll({
+                include: [{ model: Produto, as: 'produtoInfo' }]
+            });
+            callback(null, vendas);
+        } catch (err) {
+            callback(err);
+        }
     },
 
-    update: (id, venda, callback) => {
-        const query = 'UPDATE vendas SET data = ?, valor = ?, quantidade = ?, produto_id = ? WHERE id = ?';
-        const values = [venda.data, venda.valor, venda.quantidade, venda.produto_id, id];
-        db.query(query, values, (err, results) => {
-            if (err) return callback(err);
-            callback(null, results);
-        });
+    update: async (id, vendaData, callback) => {
+        try {
+            const resultado = await Venda.update(vendaData, { where: { id } });
+            callback(null, resultado);
+        } catch (err) {
+            callback(err);
+        }
     },
 
-    delete: (id, callback) => {
-        const query = 'DELETE FROM vendas WHERE id = ?';
-        db.query(query, [id], (err, results) => {
-            if (err) return callback(err);
-            callback(null, results);
-        });
+    delete: async (id, callback) => {
+        try {
+            const resultado = await Venda.destroy({ where: { id } });
+            callback(null, resultado);
+        } catch (err) {
+            callback(err);
+        }
     }
 };
 
-module.exports = Venda;
+module.exports = vendaModel;
