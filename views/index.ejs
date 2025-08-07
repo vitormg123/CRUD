@@ -10,8 +10,31 @@
         <div class="feature-card">
             <h3>Gerenciamento de produtos</h3>
             <p>Acompanhe seus produtos e seus detalhes perfeitamente.</p>
-            <a href="/produtos" class="btn btn-primary">Is para produtos</a>
+            <a href="/produtos" class="btn btn-primary">Ir para produtos</a>
         </div>
     </div>
 </div>
+
+<hr>
+
+<div class="container mt-4">
+    <h2>Produtos Cadastrados</h2>
+    <div class="row">
+        <% if (produtos && produtos.length > 0) { %>
+            <% produtos.forEach(produto => { %>
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= produto.nome %></h5>
+                            <p class="card-text"><strong>Descrição:</strong> <%= produto.descricao %></p>
+                            <p class="card-text"><strong>Preço:</strong> R$ <%= produto.preco.toFixed(2) %></p>
+                            <p class="card-text"><strong>Categoria:</strong> <%= produto.Categoria ? produto.Categoria.nome : 'Sem categoria' %></p>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>Nenhum produto cadastrado ainda.</p>
+        <% } %>
+    </div>
 </div>

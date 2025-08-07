@@ -1,16 +1,3 @@
-<form method="GET" action="/produtos" class="mb-4">
-    <div class="form-group">
-        <label for="categoria">Filtrar por Categoria:</label>
-        <select id="categoria" name="categoria" class="form-control w-25">
-            <option value="">Todas as Categorias</option>
-            <% categorias.forEach(categoria => { %>
-                <option value="<%= categoria.id %>" <%= categoriaSelecionada == categoria.id ? 'selected' : '' %>><%= categoria.nome %></option>
-            <% }) %>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Filtrar</button>
-</form>
-
 <div class="row">
     <% produtos.forEach(produto => { %>
         <div class="col-md-4 mb-4">

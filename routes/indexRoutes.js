@@ -1,15 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const Produtos = require('../models/produtoModel');
+const Produto = require('../models/produtoModel');
+const Categoria = require('../models/categoriaModel');
 
-router.get('/', (req, res) => {
-  Produtos.getAll(null, (err, results) => {
-    if (err) {
-      console.error('Erro ao buscar produtos:', err);
-      return res.status(500).send('Erro ao carregar produtos');
-    }
-    res.render('index', { title: 'Heranças do Sul', produtos: results });
-  });
+router.get('/', async (req, res) => {
+  try {
+    const produtos = await Produto.findAll({
+      include: {
+        model: Categoria,
+        attributes: ['nome']
+      }
+    });
+
+    const categorias = await Categoria.findAll();
+
+    // Renderiza a view de produtos diretamente
+    res.render('produtos/index', { produtos, categorias, categoriaSelecionada: null });
+  } catch (error) {
+    console.error('Erro ao carregar produtos:', error);
+    res.status(500).send('Erro ao carregar produtos');
+  }
 });
 
 module.exports = router;

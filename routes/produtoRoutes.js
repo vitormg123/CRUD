@@ -3,7 +3,7 @@ const produtoController = require('../controllers/produtoController');
 const router = express.Router();
 
 router.get('/', produtoController.getAllProdutos);
-router.get('/new', produtoController.renderCreateForm);
+router.get('/create', produtoController.renderCreateForm);
 router.post('/' , produtoController.createProduto);
 
 // Rota novidades deve estar antes das rotas dinâmicas
