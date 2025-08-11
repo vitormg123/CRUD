@@ -1,5 +1,5 @@
 <h1>Cadastrar novo produto</h1>
-<div style="max-height: 80vh; overflow-y: auto;">
+<div class="form-box" style="max-height: 80vh; overflow-y: auto;">
   <form action="/produtos" method="POST">
       <div class="form-group">
           <label for="nome">Nome do Produto:</label>
@@ -28,3 +28,28 @@
       <button type="submit" class="btn btn-dark btn-cinza-escuro">Cadastrar</button>
   </form>
 </div>
+
+<style>
+  .form-box {
+    background-color: #121212; /* mesmo fundo da página */
+    border: 2px solid #d35400; /* borda laranja igual ao cabeçalho */
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .form-box .form-control {
+    background-color: #121212;
+    color: white;
+    border: 1px solid #d35400;
+    border-radius: 5px;
+  }
+  .form-box .form-control:focus {
+    background-color: #121212;
+    color: white;
+    border-color: #e67e22;
+    box-shadow: 0 0 5px #e67e22;
+  }
+  .form-box label {
+    color: white;
+    font-weight: bold;
+  }
+</style>

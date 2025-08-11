@@ -1,19 +1,94 @@
-<h1>Cadastrar novo usuário</h1>
-<form action="/users" method="POST">
-    <div class="form-group">
-        <label for="username">Nome</label>
-        <input type="text" class="form-control" id="username" name="username" required>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cadastrar Usuário - Heranças do Sul</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <style>
+        /* Estilo exclusivo para o formulário de usuários */
+        .form-box-usuario {
+            background-color: #121212; /* fundo escuro igual ao layout */
+            border: 3px solid #d35400; /* borda laranja igual ao topo */
+            border-radius: 10px;
+            padding: 25px;
+            max-width: 600px;
+            margin: 30px auto;
+            color: white;
+        }
+
+        .form-box-usuario input,
+        .form-box-usuario select {
+            background-color: #121212;
+            border: 1px solid #ccc;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            width: 100%;
+            margin-bottom: 20px;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-box-usuario input:focus,
+        .form-box-usuario select:focus {
+            outline: none;
+            border-color: #d35400;
+            box-shadow: 0 0 8px #d35400;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Botão no estilo laranja escuro */
+        .btn-cadastrar-usuario {
+            background-color: #2c2c2c;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-cadastrar-usuario:hover {
+            background-color: #d35400;
+            color: white;
+        }
+    </style>
+</head>
+<body style="background-color:#121212; color:white; font-family: Arial, sans-serif; padding: 20px;">
+
+    <h1 class="text-center mb-4">Cadastrar novo usuário</h1>
+
+    <div class="form-box-usuario">
+        <form action="/users" method="POST">
+            <div class="form-group">
+                <label for="username">Nome</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="role">Regra</label>
+                <select id="role" name="role" required>
+                    <option value="admin">Administrador</option>
+                    <option value="user">Usuário</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn-cadastrar-usuario">Cadastrar</button>
+        </form>
     </div>
-    <div class="form-group">
-        <label for="password">Senha</label>
-        <input type="password" class="form-control" id="password" name="password" required>
-    </div>
-    <div class="form-group">
-        <label for="role">Regra</label>
-        <select class="form-control" id="role" name="role" required>
-            <option value="admin">Admin</option>
-            <option value="user">User</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">Cadastrar</button>
-</form>
+
+</body>
+</html>
