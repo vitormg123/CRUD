@@ -1,5 +1,6 @@
-<h1>Cadastrar novo produto</h1>
-<div class="form-box" style="max-height: 80vh; overflow-y: auto;">
+<h1 style="text-align:center; margin-bottom: 20px;">Cadastrar novo produto</h1>
+
+<div class="form-box">
   <form action="/produtos" method="POST">
       <div class="form-group">
           <label for="nome">Nome do Produto:</label>
@@ -7,15 +8,15 @@
       </div>
       <div class="form-group">
           <label for="descricao">Descrição:</label>
-          <textarea id="descricao" class="form-control" name="descricao" required></textarea>
+          <textarea id="descricao" class="form-control" name="descricao" required rows="3"></textarea>
       </div>
       <div class="form-group">
           <label for="preco">Preço:</label>
-          <input type="number" class="form-control" id="preco" name="preco" required>
+          <input type="number" class="form-control" id="preco" name="preco" required step="0.01" min="0">
       </div>
       <div class="form-group">
           <label for="quantidade">Quantidade:</label>
-          <input type="number" class="form-control" id="quantidade" name="quantidade" required>
+          <input type="number" class="form-control" id="quantidade" name="quantidade" required min="0">
       </div>
       <div class="form-group">
           <label for="categoria">Categoria:</label>
@@ -30,26 +31,40 @@
 </div>
 
 <style>
+  /* Caixa do formulário centralizada, compacta e sem barra de rolagem */
   .form-box {
-    background-color: #121212; /* mesmo fundo da página */
-    border: 2px solid #d35400; /* borda laranja igual ao cabeçalho */
+    background-color: #121212; /* fundo escuro */
+    border: 2px solid #d35400; /* borda laranja */
     border-radius: 8px;
     padding: 20px;
+    max-width: 480px;
+    margin: 0 auto 40px auto;
   }
+
+  /* Inputs com fundo escuro, borda laranja */
   .form-box .form-control {
     background-color: #121212;
     color: white;
     border: 1px solid #d35400;
     border-radius: 5px;
   }
+
+  /* Foco com destaque na borda */
   .form-box .form-control:focus {
     background-color: #121212;
     color: white;
     border-color: #e67e22;
     box-shadow: 0 0 5px #e67e22;
   }
+
+  /* Labels com cor branca */
   .form-box label {
     color: white;
     font-weight: bold;
+  }
+
+  /* Ajuste para o textarea */
+  .form-box textarea.form-control {
+    resize: vertical;
   }
 </style>

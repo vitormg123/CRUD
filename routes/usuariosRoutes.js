@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.get('/', usuariosController.getAllusuarios);
 router.get('/search', usuariosController.searchusuarios);
-router.get('/new', usuariosController.renderCreateForm);
+router.get('/create', usuariosController.renderCreateForm);  // alterado de '/new' para '/create'
 router.post('/', usuariosController.createusuarios);
 router.get('/:id', usuariosController.getusuariosById);
 router.get('/:id/edit', usuariosController.renderEditForm);
