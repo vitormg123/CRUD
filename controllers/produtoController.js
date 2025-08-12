@@ -1,5 +1,11 @@
 const Produto = require('../models/produtoModel');
-const Categoria = require('../models/categoriaModel');
+
+// Array fixo com categorias pré-cadastradas
+const categoriasFixas = [
+  { id: 1, nome: 'Masculino' },
+  { id: 2, nome: 'Feminino' },
+  { id: 3, nome: 'Infantil' }
+];
 
 const produtoController = {
   createProduto: async (req, res) => {
@@ -9,7 +15,7 @@ const produtoController = {
         descricao: req.body.descricao,
         preco: req.body.preco,
         quantidade: req.body.quantidade,
-        categoriaId: req.body.categoria // FK: categoriaId, pega o id enviado do formulário
+        categoriaId: req.body.categoria
       };
 
       await Produto.create(newProduto);
@@ -22,15 +28,10 @@ const produtoController = {
   getProdutoById: async (req, res) => {
     try {
       const produtoId = req.params.id;
-
-      const produto = await Produto.findByPk(produtoId, {
-        include: Categoria
-      });
-
+      const produto = await Produto.findByPk(produtoId);
       if (!produto) {
-        return res.status(404).json({ message: 'Produto not found' });
+        return res.status(404).json({ message: 'Produto não encontrado' });
       }
-
       res.render('produtos/show', { produto });
     } catch (err) {
       res.status(500).json({ error: err.message });
@@ -39,46 +40,12 @@ const produtoController = {
 
   getAllProdutos: async (req, res) => {
     try {
-      const categoria = req.query.categoria || null;
+      const produtos = await Produto.findAll();
 
-      const where = categoria ? { categoriaId: categoria } : undefined;
-
-      const produtos = await Produto.findAll({
-        where,
-        include: Categoria
-      });
-
-      const categorias = await Categoria.findAll();
-
+      // Passa o array fixo para o view render
       res.render('produtos/index', {
         produtos,
-        categorias,
-        categoriaSelecionada: categoria
-      });
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  },
-
-  getNovidades: async (req, res) => {
-    try {
-      const { Op } = require('sequelize');
-      const ontem = new Date();
-      ontem.setDate(ontem.getDate() - 1);
-
-      const produtos = await Produto.findAll({
-        where: {
-          createdAt: { [Op.gte]: ontem }
-        },
-        include: Categoria,
-        order: [['createdAt', 'DESC']]
-      });
-
-      const categorias = await Categoria.findAll();
-
-      res.render('produtos/index', {
-        produtos,
-        categorias,
+        categorias: categoriasFixas,
         categoriaSelecionada: null
       });
     } catch (err) {
@@ -88,8 +55,8 @@ const produtoController = {
 
   renderCreateForm: async (req, res) => {
     try {
-      const categorias = await Categoria.findAll();
-      res.render('produtos/create', { categorias });
+      // Passa o array fixo para o formulário
+      res.render('produtos/create', { categorias: categoriasFixas });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -98,14 +65,11 @@ const produtoController = {
   renderEditForm: async (req, res) => {
     try {
       const produtoId = req.params.id;
-
       const produto = await Produto.findByPk(produtoId);
       if (!produto) {
-        return res.status(404).json({ message: 'Produto not found' });
+        return res.status(404).json({ message: 'Produto não encontrado' });
       }
-
-      const categorias = await Categoria.findAll();
-      res.render('produtos/edit', { produto, categorias });
+      res.render('produtos/edit', { produto, categorias: categoriasFixas });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }

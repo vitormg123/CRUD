@@ -4,10 +4,10 @@ const router = express.Router();
 
 router.get('/', produtoController.getAllProdutos);
 router.get('/create', produtoController.renderCreateForm);
-router.post('/' , produtoController.createProduto);
+router.post('/', produtoController.createProduto);
 
-// Rota novidades deve estar antes das rotas dinâmicas
-router.get('/novidades', produtoController.getNovidades);
+// Se quiser, pode omitir essa rota de novidades ou manter sem categorias dinâmicas
+// router.get('/novidades', produtoController.getNovidades);
 
 router.get('/:id', produtoController.getProdutoById);
 router.get('/:id/edit', produtoController.renderEditForm);
