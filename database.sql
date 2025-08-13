@@ -25,36 +25,15 @@ CREATE TABLE produtos (
     descricao TEXT NOT NULL,
     preco DECIMAL(10,2) NOT NULL,
     quantidade INT NOT NULL,
-    categoria INT NOT NULL,
-    FOREIGN KEY (categoria) REFERENCES categorias(id)
+    categoriaId INT NOT NULL,
+    FOREIGN KEY (categoriaId) REFERENCES categorias(id)
 );
-
-CREATE TABLE venda (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL,
-    descricao TEXT NOT NULL,
-    preco DECIMAL(10,2) NOT NULL,
-    quantidade INT NOT NULL,
-    categoria INT NOT NULL
-);
-
-CREATE TABLE teste (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    nome VARCHAR(255) NOT NULL,
-    descricao TEXT NOT NULL,
-    preco DECIMAL(10,2) NOT NULL,
-    quantidade INT NOT NULL,
-    categoria INT NOT NULL
-);
-
-ALTER TABLE produtos
-ADD COLUMN created_at DATETIME DEFAULT CURRENT_TIMESTAMP;
 
 CREATE TABLE vendas (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    data DATE,
-    valor DECIMAL(10, 2),
-    quantidade INT,
-    produto_id INT,
-    FOREIGN KEY (produto_id) REFERENCES produtos(id)
+    produtoId INT NOT NULL,
+    quantidade INT NOT NULL,
+    preco DECIMAL(10,2) NOT NULL,
+    dataVenda DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (produtoId) REFERENCES produtos(id)
 );

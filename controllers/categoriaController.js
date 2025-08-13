@@ -32,7 +32,7 @@ const categoriaController = {
   },
 
   // Listar todas as categorias
-  getAllCategorias: async (req, res) => {
+  getAllCategorias: async (_req, res) => {
     try {
       const categorias = await Categoria.findAll();
       res.render('categorias/index', { categorias });
@@ -42,7 +42,7 @@ const categoriaController = {
   },
 
   // Renderizar formulário de criação
-  renderCreateForm: (req, res) => {
+  renderCreateForm: (_req, res) => {
     res.render('categorias/create');
   },
 

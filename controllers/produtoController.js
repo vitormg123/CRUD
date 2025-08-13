@@ -1,11 +1,5 @@
 const Produto = require('../models/produtoModel');
-
-// Array fixo com categorias pré-cadastradas
-const categoriasFixas = [
-  { id: 1, nome: 'Masculino' },
-  { id: 2, nome: 'Feminino' },
-  { id: 3, nome: 'Infantil' }
-];
+const Categoria = require('../models/categoriaModel');
 
 const produtoController = {
   createProduto: async (req, res) => {
@@ -13,9 +7,9 @@ const produtoController = {
       const newProduto = {
         nome: req.body.nome,
         descricao: req.body.descricao,
-        preco: req.body.preco,
-        quantidade: req.body.quantidade,
-        categoriaId: req.body.categoria
+        preco: parseFloat(req.body.preco),
+        quantidade: parseInt(req.body.quantidade, 10),
+        categoriaId: parseInt(req.body.categoria, 10)
       };
 
       await Produto.create(newProduto);
@@ -38,25 +32,25 @@ const produtoController = {
     }
   },
 
-  getAllProdutos: async (req, res) => {
+  getAllProdutos: async (_, res) => {
     try {
       const produtos = await Produto.findAll();
-
-      // Passa o array fixo para o view render
+      // Busca todas as categorias para exibir no view
+      const categorias = await Categoria.getAll();
+      // Passa as categorias do banco para o view render
       res.render('produtos/index', {
-        produtos,
-        categorias: categoriasFixas,
-        categoriaSelecionada: null
+        produtos
       });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
   },
 
-  renderCreateForm: async (req, res) => {
+  renderCreateForm: async (_, res) => {
     try {
-      // Passa o array fixo para o formulário
-      res.render('produtos/create', { categorias: categoriasFixas });
+      const categorias = await Categoria.findAll();
+      // Passa as categorias do banco para o formulário
+      res.render('produtos/create', { categorias });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -66,10 +60,12 @@ const produtoController = {
     try {
       const produtoId = req.params.id;
       const produto = await Produto.findByPk(produtoId);
+      const categorias = await Categoria.findAll();
+      
       if (!produto) {
         return res.status(404).json({ message: 'Produto não encontrado' });
       }
-      res.render('produtos/edit', { produto, categorias: categoriasFixas });
+      res.render('produtos/edit', { produto, categorias });
     } catch (err) {
       res.status(500).json({ error: err.message });
     }
@@ -82,9 +78,9 @@ const produtoController = {
       const updatedProduto = {
         nome: req.body.nome,
         descricao: req.body.descricao,
-        preco: req.body.preco,
-        quantidade: req.body.quantidade,
-        categoriaId: req.body.categoria
+        preco: parseFloat(req.body.preco),
+        quantidade: parseInt(req.body.quantidade, 10),
+        categoriaId: parseInt(req.body.categoria, 10)
       };
 
       await Produto.update(updatedProduto, { where: { id: produtoId } });
@@ -104,5 +100,4 @@ const produtoController = {
     }
   }
 };
-
 module.exports = produtoController;

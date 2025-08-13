@@ -64,4 +64,4 @@ const categoriaModel = {
   },
 };
 
-module.exports = Categoria;
+module.exports = categoriaModel;
